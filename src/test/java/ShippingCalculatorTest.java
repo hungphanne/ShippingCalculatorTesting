@@ -121,4 +121,33 @@ public class ShippingCalculatorTest {
     void testInvalidWeight() {
         assertThrows(IllegalArgumentException.class, () -> calculator.calculateFee(NOM_DIST, 30.1));
     }
+
+    // --- NHÓM 4: KIỂM THỬ DÒNG ĐIỀU KHIỂN
+
+    @Test
+    @DisplayName("ID 1: Không phụ phí (Distance <= 2, Weight <= 3)")
+    void testCase1() {
+        assertEquals(15000, calculator.calculateFee(1.5, 2.4));
+    }
+
+    @Test
+    @DisplayName("ID 2: Cả hai phụ phí (Distance > 2, Weight > 3)")
+    void testCase2() {
+        // Phí: 15000 + (4.3-2.0)*5000 + (10.5-3.0)*4000 = 56500
+        assertEquals(56500, calculator.calculateFee(4.3, 10.5));
+    }
+
+    @Test
+    @DisplayName("ID 3: Chỉ phụ phí quãng đường (Distance > 2, Weight <= 3)")
+    void testCase3() {
+        // Phí: 15000 + (3.0-2.0)*5000 = 20000
+        assertEquals(20000, calculator.calculateFee(3.0, 2.0));
+    }
+
+    @Test
+    @DisplayName("ID 4: Chỉ phụ phí khối lượng (Distance <= 2, Weight > 3)")
+    void testCase4() {
+        // Phí: 15000 + (5.0-3.0)*4000 = 23000
+        assertEquals(23000, calculator.calculateFee(1.0, 5.0));
+    }
 }
