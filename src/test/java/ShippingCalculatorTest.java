@@ -150,4 +150,32 @@ public class ShippingCalculatorTest {
         // Phí: 15000 + (5.0-3.0)*4000 = 23000
         assertEquals(23000, calculator.calculateFee(1.0, 5.0));
     }
+
+    // --- NHÓM 5: KIỂM THỬ DÒNG DỮ LIỆU
+
+    @Test
+    void testCalculateFee_AllUses_Case1() {
+        // Path: 1->2->3->4T->5->6T->7->8->EXIT (Cả d và w đều vượt limit)
+        long expected = 15900;
+        assertEquals(expected, calculator.calculateFee(2.1, 3.1));
+    }
+
+    @Test
+    void testCalculateFee_AllUses_Case2() {
+        // Path: 1->2->3->4F->6F->8->EXIT (Cả d và w đều trong limit)
+        assertEquals(15000, calculator.calculateFee(0.1, 2.9));
+    }
+
+    @Test
+    void testCalculateFee_AllUses_Case3() {
+        // Path: 1->2->3->4F->6T->7->8->EXIT (Chỉ w vượt limit)
+        assertEquals(15400, calculator.calculateFee(1.9, 3.1));
+    }
+
+    @Test
+    void testCalculateFee_AllUses_Case4() {
+        // Path: 1->2->3->4T->5->6F->8->EXIT (Chỉ d vượt limit)
+        assertEquals(15500, calculator.calculateFee(2.1, 0.1));
+    }
+
 }
